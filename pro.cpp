@@ -11,7 +11,7 @@ struct Teacher
     Teacher* next;
 };
    struct Teacher *head =0;
-  // struct Teacher *temp;
+
   string filename = "Teacher_list.txt";
 
    void saveToFile(Teacher* head, const string& filename)
@@ -58,9 +58,9 @@ Teacher* createTeacher(string Tname,string Tinitial,string Temail,string Tphone,
         temp = head;
         while (temp->next != nullptr)
         {
-            temp = temp->next; // lasert ta khujbe
+            temp = temp->next;
         }
-        temp->next = newTeacher; // Lasteer tay new teacher add hobe
+        temp->next = newTeacher;
 
 
     }
@@ -93,7 +93,7 @@ Teacher* createTeacher(string Tname,string Tinitial,string Temail,string Tphone,
 
 void insertTeacher()
 {
-    // loadFromFile(head,filename);
+
     Teacher* temp = head;
 
     string name;
@@ -103,15 +103,16 @@ void insertTeacher()
     int age;
 
     cout << "Enter Teacher Name: ";
+    cin.ignore();
     getline(cin,name);
 
-    bool uniqueInitial = false;
-    while (!uniqueInitial)
-    {
-        cout << "Enter Teacher Initial: ";
-        cin >> initial;
 
-        // Check if initial already exists
+
+        cout << "Enter Teacher Initial: ";
+       getline(cin,initial);
+
+
+
         Teacher* current = head;
         bool initialExists = false;
         while (current != nullptr)
@@ -124,28 +125,28 @@ void insertTeacher()
             current = current->next;
         }
 
-        if (initialExists)
+        if (initialExists==true)
         {
             cout << "Initial already exists. Please enter a unique initial." << endl;
+            return;
         }
-        else
-        {
-            uniqueInitial = true;
-        }
-    }
+
 
     cout << "Enter Teacher Email: ";
-    cin >> email;
+    getline(cin,email);
+
+
 
     cout << "Enter Teacher Phone: ";
-    cin >> phone;
+    getline(cin,phone);
+
 
     cout << "Enter Teacher Age: ";
     cin >> age;
 
+
     createTeacher(name, initial, email, phone, age);
-    // saveToFile(head, filename);
-    // loadFromFile(head, filename);
+
 }
 
 
@@ -180,7 +181,7 @@ void deleteTeacher()
     cout << "Enter Teacher Initial to delete: ";
     cin >> initial;
 
-    // Check if the head node needs to be deleted
+
     if (head->Tinitial == initial)
     {
         Teacher* temp = head;
@@ -243,7 +244,7 @@ void modifyTeacher()
             cout << "Enter new age: ";
             cin >> newAge;
 
-            // Modify the teacher's information
+
             temp->Tname = newName;
             temp->Temail = newEmail;
             temp->Tphone = newPhone;
@@ -259,7 +260,7 @@ void modifyTeacher()
 
     cout << "Teacher with initial " << initial << " not found." << endl;
 }
-// This part for For course
+
  struct Course
 {
     string Cname;
@@ -269,9 +270,9 @@ void modifyTeacher()
     Course* next;
 };
    struct Course *head2 =0;
-// This part for For course
 
-// This part for For course
+
+
 string filename2 = "Course_list.txt";
 
 
@@ -318,9 +319,9 @@ string filename2 = "Course_list.txt";
         temp = head2;
         while (temp->next != nullptr)
         {
-            temp = temp->next; // lasert ta khujbe
+            temp = temp->next;
         }
-        temp->next = newCourse; // Lasteer tay new teacher add hobe
+        temp->next = newCourse;
 
 
     }
@@ -364,11 +365,11 @@ void loadCourseListFromFile(Course* head, const string& filename2)
     string courseRoom;
     string Cfac;
     string TcourseTime;
-    cout << "Enter Course Name:   ";
+    cout << "Enter Course Name:   \n";
     cin >> courseName;
     cout<<"\n";
     cout<<"Faculty have to register in the Register Book"<<endl;
-    cout << "Enter Faculty of the Course:   ";
+    cout << "\n\nEnter Faculty of the Course:   "<<endl;
     cin >> Cfac;
 
     bool facultyExists = false;
@@ -385,10 +386,36 @@ void loadCourseListFromFile(Course* head, const string& filename2)
 
     if (!facultyExists)
     {
-        cout << "Faculty Does Not Exist in Register Book! Try Again with a valid Faculty\n";
-        cout<<"Thank You " ;
-        return;
+        cout << "Faculty Does Not Exist in Register Book! Try Again with a valid Faculty\n"<<endl;
+        cout<<"Thank You "<<endl ;
+        return insertCourse();
     }
+
+
+
+
+    int c=0;
+    while (temp2 != nullptr)
+    {
+        if (temp2->cTeacher==courseFaculty)
+        {
+            c++;
+        }
+        temp2 = temp2->next;
+    }
+    if(c>3)
+    {
+        cout<<"Faculty Already Have 3 courses"<<endl;
+        cout<<"Try again with another Faculty"<<endl;
+        cout<<"Thank You"<<endl;
+        return insertCourse() ;
+    }
+
+
+
+
+
+
 
     cout <<"There are 15 time slot in 6 days :   " <<endl;
 
@@ -428,7 +455,7 @@ void loadCourseListFromFile(Course* head, const string& filename2)
 
             cout<<"Thank You "<<endl;
 
-            return;
+            return insertCourse();
 
         }
         else
@@ -500,42 +527,18 @@ void searchTeacher(Teacher *head)
 
 }
 
-
-
-//int main()
-//{
-
-    // loadFromFile(head,filename);
-    // loadCourseListFromFile(head2,filename2);
-
-     //displayTeachers(head);
-
-
- //displayCourse(head2);
-
-     //insertTeacher();
-     //deleteTeacher();
-     //modifyTeacher();
-
-
-
-    //insertTeacher();
-     // displayTeachers(head);
-    //insertCourse();
-//}
-
     int main()
 {
-    // Variables
+
     int choice;
 
-    // Load data
+
     loadFromFile(head, filename);
     loadCourseListFromFile(head2, filename2);
 
-    // Display menu and process user choice
+
     do {
-        // Display menu options
+
         cout<<"\n-- Menu --\n"<<endl;
          cout<<"       1. Display All Teachers\n"<<endl;
          cout<<"       2. Display All Courses\n"<<endl;
@@ -548,7 +551,7 @@ void searchTeacher(Teacher *head)
          cout<<"Enter your choice: "<<endl;
          cin>>choice;
 
-        // Process user choice
+
         switch (choice) {
             case 0:
                 printf("Exiting the program.\n");
@@ -598,9 +601,7 @@ void searchTeacher(Teacher *head)
 
 
 
- //SearchTeacher();
- //CourseWiseRoutineWithFullInfo();
- //RoomWiseRoutine();  // Just room and routine
+
 
 
 
